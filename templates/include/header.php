@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title><?php echo htmlspecialchars($results['pageTitle']) ?></title>
+		<link rel="stylesheet" type="text/css" href="/style.css" />
+	</head>
+	<body>
+		<center>
+			<div id="container">
+				<a href="/"><img id="logo" src="images/logo.png" alt="CTM Map Repository" style="display: block; margin: auto; width:100%; text-align: center;" /></a><br>
+				<a href="/"><button class="headerButton">Home</button></a>&nbsp;&nbsp;
+				<a href="/index.php?action=popular"><button class="headerButton">Popular Maps</button></a>&nbsp;&nbsp;
+				<a href="/index.php?action=browse"><button class="headerButton">Browse</button></a>&nbsp;&nbsp;
+				<a href="/index.php?action=search"><button class="headerButton">Advanced Search</button></a>&nbsp;&nbsp;
+				<a href="https://goo.gl/forms/tiE2YeDmnYQ4zlTR2" target="_blank"><button class="headerButton">Map Submission</button></a>
+				<hr>
