@@ -1,5 +1,5 @@
 /* Style the body and outer container */
- 
+
 body {
   margin: 0;
   color: #333;
@@ -7,7 +7,7 @@ body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   line-height: 1.5em;
 }
- 
+
 #container {
   width: 960px;
   background: #fff;
@@ -17,10 +17,10 @@ body {
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
- 
- 
+
+
 /* The logo and footer */
- 
+
 #logo {
   display: block;
   width: 300px;
@@ -28,14 +28,14 @@ body {
   border: none;
   border-bottom: 1px solid #DCDCDC;
 }
- 
+
 #footer {
   border-top: 1px solid #DCDCDC;
   margin-top: 40px;
   padding: 20px 0 0 0;
   font-size: .8em;
 }
- 
+
 h1, h2, h3, h4, h5, p {
     display: inline-block;
     margin-top: 0;
@@ -74,24 +74,24 @@ h1, h2, h3, h4, h5, p {
 	padding: 12px 24px;
 	border-radius: 8px;
 }
- 
+
 /* Headings */
- 
+
 h1 {
   color: #eb6841;
 }
- 
+
 h2, h2 a {
   color: #edc951;
 }
- 
+
 h2 a {
   text-decoration: none;
 }
- 
- 
+
+
 /* "You are logged in..." header on admin pages */
- 
+
 #adminHeader {
   width: 940px;
   padding: 0 10px;
@@ -99,10 +99,10 @@ h2 a {
   margin: -30px 0 40px 0;
   font-size: 0.8em;
 }
- 
- 
+
+
 /* Style the form with a coloured background, along with curved corners and a drop shadow */
- 
+
 form {
   margin: 20px auto;
   padding: 40px 20px;
@@ -110,34 +110,34 @@ form {
   background: #fff4cf;
   border: 1px solid #666;
   -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;  
+  -webkit-border-radius: 5px;
   border-radius: 5px;
   -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
   -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
   box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
 }
- 
- 
+
+
 /* Give form elements consistent margin, padding and line height */
- 
+
 form ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
- 
+
 form ul li {
   margin: .9em 0 0 0;
   padding: 0;
 }
- 
+
 form * {
   line-height: 1em;
 }
- 
- 
+
+
 /* The field labels */
- 
+
 label {
   display: block;
   float: left;
@@ -147,78 +147,78 @@ label {
   padding: .4em 0 0 0;
   margin: .15em .5em 0 0;
 }
- 
- 
+
+
 /* The fields */
- 
+
 input, select, textarea {
   display: block;
   margin: 0;
   padding: .4em;
   width: 80%;
 }
- 
+
 input, textarea, .date {
   border: 2px solid #666;
   -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;    
+  -webkit-border-radius: 5px;
   border-radius: 5px;
   background: #fff;
 }
- 
+
 input {
   font-size: .9em;
 }
- 
+
 select {
   padding: 0;
   margin-bottom: 2.5em;
   position: relative;
   top: .7em;
 }
- 
+
 textarea {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: .9em;
   height: 5em;
   line-height: 1.5em;
 }
- 
+
 textarea#content {
   font-family: "Courier New", courier, fixed;
 }
-   
- 
+
+
 /* Place a border around focused fields */
- 
+
 form *:focus {
   border: 2px solid #7c412b;
   outline: none;
 }
- 
- 
+
+
 /* Display correctly filled-in fields with a green background */
- 
+
 input:valid, textarea:valid {
   background: #efe;
 }
- 
- 
+
+
 /* Submit buttons */
- 
+
 .buttons {
   text-align: center;
   margin: 40px 0 0 0;
 }
- 
+
 input[type="submit"] {
   display: inline;
   margin: 0 20px;
-  width: 12em;
+  width: 24em;
   padding: 10px;
   border: 2px solid #7c412b;
   -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;  
+  -webkit-border-radius: 5px;
   border-radius: 5px;
   -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
   -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
@@ -228,38 +228,38 @@ input[type="submit"] {
   font-weight: bold;
   -webkit-appearance: none;
 }
- 
+
 input[type="submit"]:hover, input[type="submit"]:active {
   cursor: pointer;
   background: #fff;
   color: #ef7d50;
 }
- 
+
 input[type="submit"]:active {
   background: #eee;
   -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8) inset;
   -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8) inset;
   box-shadow: 0 0 .5em rgba(0, 0, 0, .8) inset;
 }
- 
- 
+
+
 /* Tables */
- 
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
- 
+
 tr, th, td {
   padding: 10px;
   margin: 0;
   text-align: left;
 }
- 
+
 table, th {
   border: 1px solid #00a0b0;
 }
- 
+
 th {
   border-left: none;
   border-right: none;
@@ -267,41 +267,41 @@ th {
   color: #fff;
   cursor: default;
 }
- 
+
 tr:nth-child(odd) {
   background: #fff4cf;
 }
- 
+
 tr:nth-child(even) {
   background: #fff;
 }
- 
+
 tr:hover {
   background: #ddd;
   cursor: pointer;
 }
- 
- 
+
+
 /* Status and error boxes */
- 
+
 .statusMessage, .errorMessage {
   font-size: .8em;
   padding: .5em;
   margin: 2em 0;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  border-radius: 5px; 
+  border-radius: 5px;
   -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
   -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
   -box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
 }
- 
+
 .statusMessage {
   background-color: #2b2;
   border: 1px solid #080;
   color: #fff;
 }
- 
+
 .errorMessage {
   background-color: #f22;
   border: 1px solid #800;

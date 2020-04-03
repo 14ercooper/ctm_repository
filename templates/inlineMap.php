@@ -7,7 +7,8 @@
 	<h4><?php echo "Objectives: " . $dispMap->objectives . " required + " . $dispMap->bonusObjectives . " bonus" ?></h4><br>
 	<h4><?php echo "Difficulty: " . $dispMap->difficulty ?></h4><br>
 	<h4><?php echo "For Minecraft " . $dispMap->minecraftVersion ?></h4><br>
-	<h5><?php echo "Downloads: " . round($dispMap->downloadCount * 4.6) ?></h5><br>
+	<h4><?php echo "Map Type: " . $dispMap->mapType ?></h4><br>
+	<h5><?php echo "Downloads: " . round($dispMap->downloadCount) ?></h5><br>
 	<p class="shortBlurb"><?php echo $dispMap->shortDescription ?></p><br>
 	<a href="/index.php?action=viewMap&id=<?php echo $dispMap->id ?>" class="moreInfo"><button class="moreInfoBlurb">Click for more information!</button></a>
 </div>

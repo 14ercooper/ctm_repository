@@ -32,7 +32,7 @@ switch ($action) {
 function login () {
 	$results = array();
 	$results['pageTitle'] = "Admin Login | CTM Map Repository";
-	
+
 	if (isset($_POST['login'])) {
 		if ($_POST['username'] == ADMIN_USERNAME && $_POST['password'] == ADMIN_PASSWORD) {
 			$_SESSION['username'] = ADMIN_USERNAME;
@@ -61,6 +61,20 @@ function newMap () {
 		$map->insert();
 		header("Location: admin.php?status=changesSaved");
 	}
+	if (isset($_POST['saveChangesPublish'])) {
+		$map = new Map();
+		$map->storeFormValues($_POST);
+		$map->insert();
+		$map->makePublished(true);
+		header("Location: admin.php?status=changesSaved");
+	}
+	if (isset($_POST['saveChangesUnpublsih'])) {
+		$map = new Map();
+		$map->storeFormValues($_POST);
+		$map->insert();
+		$map->makePublished(false);
+		header("Location: admin.php?status=changesSaved");
+	}
 	elseif (isset($_POST['cancel'])) {
 		header("Location: admin.php");
 	}
@@ -78,10 +92,32 @@ function editMap () {
 		if (!$map = Map::getById((int)$_POST['mapId'])) {
 			header("Location: admin.php?error=mapNotFound");
 		}
-		
+
 		$map = new Map();
 		$map->storeFormValues($_POST);
 		$map->update();
+		header("Location: admin.php?status=changesSaved");
+	}
+	if (isset($_POST['saveChangesPublish'])) {
+		if (!$map = Map::getById((int)$_POST['mapId'])) {
+			header("Location: admin.php?error=mapNotFound");
+		}
+
+		$map = new Map();
+		$map->storeFormValues($_POST);
+		$map->update();
+		$map->makePublished(true);
+		header("Location: admin.php?status=changesSaved");
+	}
+	if (isset($_POST['saveChangesUnpublish'])) {
+		if (!$map = Map::getById((int)$_POST['mapId'])) {
+			header("Location: admin.php?error=mapNotFound");
+		}
+
+		$map = new Map();
+		$map->storeFormValues($_POST);
+		$map->update();
+		$map->makePublished(false);
 		header("Location: admin.php?status=changesSaved");
 	}
 	elseif (isset($_POST['cancel'])) {
@@ -90,7 +126,7 @@ function editMap () {
 	else {
 		$results['map'] = Map::getById((int)$_GET['mapId']);
 		require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/admin/editMap.php");
-	}	
+	}
 }
 
 function deleteMap () {
@@ -99,26 +135,31 @@ function deleteMap () {
 		header("Location: admin.php?error=mapNotFound");
 		return;
 	}
-	
+
 	$map->deleteMap();
 	header("Location: admin.php?status=mapDeleted");
 }
 
 function listMaps() {
 	$results = array();
-	$data = Map::getList(100000, "addedDate DESC");
+	if (isset($_GET['unpublished'])) {
+		$data = Map::adminGetList(1);
+	}
+	else {
+		$data = Map::adminGetList(0);
+	}
 	$results['maps'] = $data['results'];
-	$results['pageTitle'] = "All Maps | CTM Map Repository";
-	
+	$results['pageTitle'] = "Maps | CTM Map Repository";
+
 	if (isset( $_GET['error'])) {
 		if ($_GET['error'] == "mapNotFound") $results['errorMessage'] = "Error: Map not found.";
 	}
-	
+
 	if (isset($_GET['status'])) {
 		if ($_GET['status'] == "changesSaved") $results['statusMessage'] = "Your changes have been saved.";
 		if ($_GET['status'] == "mapDeleted") $results['statusMessage'] = "Map deleted.";
 	}
-	
+
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/admin/listMaps.php");
 }
 ?>

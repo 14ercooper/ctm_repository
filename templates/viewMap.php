@@ -12,7 +12,6 @@
 	<h3><?php echo "Map Type: " . $dispMap->mapType ?></h3><hr>
 	<p class="longBlurb"><?php echo $dispMap->longDescription ?></p><br>
 	<a href="/download.php?id=<?php echo $dispMap->id ?>" target="_blank"><button class="download">Download Now!</button></a><br>
-	<h4><?php echo "Downloads: " . round($dispMap->downloadCount * 4.6) ?></h4><br>
 </div>
 <hr>
 

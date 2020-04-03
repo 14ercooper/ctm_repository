@@ -4,18 +4,18 @@
 
 <form action="browse.php?action=results" method="post">
 	<input type="hidden" name="searchDone" value="true" />
-	
+
 	<ul>
 		<li>
 			<label for="objectivesMin">Number of Objectives (Min)</label>
 			<input type="number" name="objectivesMin" id="objectivesMin" value="">
 		</li>
-		
+
 		<li>
 			<label for="objectivesMax">Number of Objectives (Max)</label>
 			<input type="number" name="objectivesMax" id="objectivesMax" value="">
 		</li>
-		
+
 		<li>
 			<label for="minecraftVersion" id="minecraftVersion">Minecraft Version</label>
 			<select name="minecraftVersion" id="minecraftVersion">
@@ -28,27 +28,31 @@
 				<option value="Beta">Beta</option>
 			</select>
 		</li>
-		
+
 		<li>
 			<label for="length" id="length">Map Length</label>
 			<select name="length" id="length">
 				<option value="">Any</option>
+				<option value="VeryShort">Very Short</option>
 				<option value="Short">Short</option>
 				<option value="Medium">Medium</option>
 				<option value="Long">Long</option>
+				<option value="VeryLong">Very Long</option>
 			</select>
 		</li>
-		
+
 		<li>
 			<label for="difficulty" id="difficulty">Map Difficulty</label>
 			<select name="difficulty" id="difficulty">
 				<option value="">Any</option>
+				<option value="VeryEasy">Very Easy</option>
 				<option value="Easy">Easy</option>
 				<option value="Medium">Medium</option>
 				<option value="Hard">Hard</option>
+				<option value="VeryHard">Very Hard</option>
 			</select>
 		</li>
-		
+
 		<li>
 			<label for="type" id="type">Map Type</label>
 			<select name="type" id="type">
@@ -57,10 +61,12 @@
 				<option value="Linear">Linear</option>
 				<option value="OpenWorld">Open World</option>
 				<option value="Adventure">Adventure</option>
+				<option value="CentralHub">Central Hub</option>
+				<option value="RFW">RFW</option>
 				<option value="Other">Other</option>
 			</select>
 		</li>
-		
+
 		<li>
 			<label for="sortOrder" id="sortOrder">Sort By</label>
 			<select name="sortOrder" id="sortOrder">
@@ -70,7 +76,7 @@
 			</select>
 		</li>
 	</ul>
-	
+
 	<div class="buttons">
 		<input type="submit" name="search" value="Search" />
 	</div>
