@@ -90,7 +90,7 @@ class Map {
 
 		if ($this->id == 131 && $this->name == "Starshine Jungle") {
 			$this->downloadCount = 69420;
-			$this->popScore = 6.9;
+			$this->popScore = 0.69;
 		}
 	}
 

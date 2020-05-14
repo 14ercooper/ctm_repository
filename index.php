@@ -62,7 +62,7 @@ function viewMap () {
 
 function homepage () {
 	$results = array();
-	$results['featured'] = Map::getById(66);
+	$results['featured'] = Map::getById(67);
 	$results['random'] = Map::getRandomMap();
 	$results['pageTitle'] = "CTM Maps Repository";
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/homepage.php");

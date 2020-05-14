@@ -14,4 +14,8 @@
 				<a href="/index.php?action=search"><button class="headerButton">Advanced Search</button></a>&nbsp;
 				<a href="https://ctmrepository.com/submitMap.php"><button class="headerButton">Map Submission</button></a>&nbsp;
 				<a href="http://discord.gg/DQc9k9a" target="_blank"><button class="headerButton">The CTM Community</button></a>
+				<br>
+				Top Tier Supporters Who Help Keep This Online:
+				<b>CooleyBrekka</b>
+				<br>Thanks a bunch!
 				<hr>
