@@ -73,7 +73,6 @@ h1, h2, h3, h4, h5, p {
 	font-size: 16px;
 	padding: 12px 24px;
 	border-radius: 8px;
-	cursor: pointer;
 }
 
 /* Headings */
@@ -210,6 +209,10 @@ input:valid, textarea:valid {
 .buttons {
   text-align: center;
   margin: 40px 0 0 0;
+}
+
+a button {
+    cursor: pointer;
 }
 
 input[type="submit"] {
