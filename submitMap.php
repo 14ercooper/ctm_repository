@@ -44,9 +44,11 @@ function upload() {
     $target_file = $target_dir . $imageId;
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $ext = "";
     // Check if image file is a actual image or fake image
     if(isset($_POST["submit"])) {
         $check = getimagesize($_FILES["imageFile"]["tmp_name"]);
+        $ext = pathinfo($_FILES['imageFile']['name'], PATHINFO_EXTENSION);
         if($check !== false) {
             $uploadOk = 1;
         } else {
@@ -54,6 +56,7 @@ function upload() {
             $uploadOk = 0;
         }
     }
+    $target_file = $target_file . "." . $ext;
     // Check if file already exists
     if (file_exists($target_file)) {
         echo "err2";
@@ -70,7 +73,7 @@ function upload() {
     // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["imageFile"]["tmp_name"], $target_file)) {
-            return $imageId;
+            return $imageId . "." . $ext;
         } else {
             echo "err4";
             return 0;

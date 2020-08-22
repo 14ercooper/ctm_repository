@@ -20,7 +20,8 @@
 			<label for="minecraftVersion" id="minecraftVersion">Minecraft Version</label>
 			<select name="minecraftVersion" id="minecraftVersion">
 				<option value="">Any</option>
-				<option value="1.13">1.13 - Present</option>
+				<option value="1.16">1.16 - Present</option>
+				<option value="1.13">1.13 - 1.15</option>
 				<option value="1.9">1.9 - 1.12</option>
 				<option value="1.7">1.7 - 1.8</option>
 				<option value="1.3">1.3 - 1.6</option>

@@ -16,6 +16,6 @@
 				<a href="http://discord.gg/DQc9k9a" target="_blank"><button class="headerButton">The CTM Community</button></a>
 				<br>
 				Top Tier Supporters Who Help Keep This Online:
-				<b>CooleyBrekka</b>
+				<b>CooleyBrekka, Princerbang</b>
 				<br>Thanks a bunch!
 				<hr>
