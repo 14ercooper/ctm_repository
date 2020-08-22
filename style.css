@@ -211,6 +211,10 @@ input:valid, textarea:valid {
   margin: 40px 0 0 0;
 }
 
+a button {
+    cursor: pointer;
+}
+
 input[type="submit"] {
   display: inline;
   margin: 0 20px;
