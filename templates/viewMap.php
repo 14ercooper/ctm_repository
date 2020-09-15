@@ -1,5 +1,13 @@
 <?php include $_SERVER['DOCUMENT_ROOT'] . "/templates/include/header.php" ?>
 
+<?php
+	if (!is_object($dispMap)) {
+		echo("<h2>Map not found.</h2>");
+		include $_SERVER['DOCUMENT_ROOT'] . "/templates/include/footer.php";
+		exit();
+	}
+?>
+
 <div class="mapView">
 	<img src="<?php echo $dispMap->imageURL ?>" alt="Map thumbnail" style="float:left;width:100%;"/><hr style="height:15pt; visibility:hidden;" />
 	<h1 style="font-size: 48px;"><?php echo $dispMap->name ?></h1><br>

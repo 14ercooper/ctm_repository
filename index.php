@@ -55,14 +55,19 @@ function viewMap () {
 	}
 
 	$results = array();
-	$dispMap = Map::getById((int) $_GET["id"]);
-	$results['pageTitle'] =$dispMap->name . " | CTM Map Repository";
+	$dispMap = Map::getByIdPublished((int) $_GET["id"]);
+	if (is_object($dispMap)) {
+		$results['pageTitle'] = $dispMap->name . " | CTM Map Repository";
+	}
+	else {
+		$results['pageTitle'] = "Error | CTM Map Repository";
+	}
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/viewMap.php");
 }
 
 function homepage () {
 	$results = array();
-	$results['featured'] = Map::getById(238);
+	$results['featured'] = Map::getById(211);
 	$results['random'] = Map::getRandomMap();
 	$results['pageTitle'] = "CTM Maps Repository";
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/homepage.php");

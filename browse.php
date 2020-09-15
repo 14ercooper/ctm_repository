@@ -40,11 +40,11 @@ function browseResults () {
 	else if ($_POST['difficulty'] === "Hard"){ $mapDifficulty = "Hard"; }
 	else if ($_POST['difficulty'] === "VeryHard"){ $mapDifficulty = "Very Hard"; }
 	$mapLength = "";
-	if ($_POST['length'] === "Very Short") { $mapLength = "Very Short"; }
+	if ($_POST['length'] === "VeryShort") { $mapLength = "Very Short"; }
 	else if ($_POST['length'] === "Short") { $mapLength="Short"; }
 	else if ($_POST['length'] === "Medium") { $mapLength="Medium"; }
 	else if ($_POST['length'] === "Long") { $mapLength = "Long"; }
-	else if ($_POST['length'] === "Long") { $mapLength = "Very Long"; }
+	else if ($_POST['length'] === "VeryLong") { $mapLength = "Very Long"; }
 	$mapType = "";
 	if ($_POST['type'] === "Branching") { $mapType="Branching"; }
 	else if ($_POST['type'] === "Linear") { $mapType="Linear"; }

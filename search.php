@@ -20,25 +20,31 @@ function results () {
 	$mapSeries = !empty($_POST['series']) ? htmlspecialchars($_POST['series']) : "";
 	$order = "downloadCount DESC";
 	$mapDifficulty = "";
-	if ($_POST['difficulty'] === "Easy") { $mapDifficulty="Easy"; }
+	if ($_POST['difficulty'] === "VeryEasy") { $mapDifficulty="Very Easy"; }
+	else if ($_POST['difficulty'] === "Easy") { $mapDifficulty="Easy"; }
 	else if ($_POST['difficulty'] === "Medium") { $mapDifficulty="Medium"; }
 	else if ($_POST['difficulty'] === "Hard"){ $mapDifficulty = "Hard"; }
+	else if ($_POST['difficulty'] === "VeryHard"){ $mapDifficulty = "Very Hard"; }
 	$mapLength = "";
-	if ($_POST['length'] === "Short") { $mapLength="Short"; }
+	if ($_POST['length'] === "VeryShort") { $mapLength="Very Short"; }
+	else if ($_POST['length'] === "Short") { $mapLength="Short"; }
 	else if ($_POST['length'] === "Medium") { $mapLength="Medium"; }
 	elseif ($_POST['length'] === "Long") { $mapLength = "Long"; }
+	elseif ($_POST['length'] === "VeryLong") { $mapLength = "Very Long"; }
 	$mapType = "";
 	if ($_POST['type'] === "Branching") { $mapType="Branching"; }
 	else if ($_POST['type'] === "Linear") { $mapType="Linear"; }
 	else if ($_POST['type'] === "OpenWorld") { $mapType="Open World"; }
 	else if ($_POST['type'] === "Adventure") { $mapType="Adventure"; }
+	else if ($_POST['type'] === "CentralHub") { $mapType="Central Hub"; }
+	else if ($_POST['type'] === "RFW") { $mapType="RFW"; }
 	elseif ($_POST['type'] === "Other") { $mapType = "Other"; }
-	
+
 	// Load maps
 	$data = Map::getList($numRows, $order, $mapName, $mapAuthor, $mapDifficulty, $mapLength, $mapSeries, $mapType, $mapObjectives);
 	$results['maps'] = $data['results'];
 	$results['pageTitle'] = "Search | CTM Map Repository";
-	
+
 	// Display maps
 	require($_SERVER['DOCUMENT_ROOT'] . "/searchResults.php");
 }

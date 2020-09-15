@@ -33,7 +33,7 @@ function submit() {
 
 function showForm() {
     if (isset($_GET["submitted"])) echo "<h2>Map submitted successfully.</h2><br><br>";
-    if (isset($_GET["error"])) echo "<h2>Error submitting map.</h2><br><br>";
+    if (isset($_GET["error"])) echo "<h1>Error submitting map.</h1><br><h2>Your image format is likely not supported.</h2><br><br>";
 	echo "<h3>Help add maps! Any CTM/RFW maps you can find are welcome!</h3>";
     include ($_SERVER['DOCUMENT_ROOT'] . "/templates/submitMap.php");
 }

@@ -116,6 +116,18 @@ class Map {
 		if ($row) return new Map ($row);
 	}
 
+	// Return map by ID with published check
+	public static function getByIdPublished ($id) {
+		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+		$sql = "SELECT * FROM maplist WHERE (id = :id) AND (published = 1);";
+		$st = $conn->prepare($sql);
+		$st->bindValue(":id", $id, PDO::PARAM_INT);
+		$st->execute();
+		$row = $st->fetch();
+		$conn = null;
+		if ($row) return new Map ($row);
+	}
+
 	public static function adminGetList ($onlyPending) {
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
 		$sql = "SELECT * FROM maplist";
@@ -239,7 +251,7 @@ class Map {
 		return (array("results" => $list));
 	}
 
-	public static function getBrowseList ($objMax, $objMin, $minecraftVer, $sortOrder, $mapDiffculty, $mapLength, $mapType) {
+	public static function getBrowseList ($objMax, $objMin, $minecraftVer, $sortOrder, $mapDifficulty, $mapLength, $mapType) {
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
 		$sqlIntro = " WHERE (";
 		$sqlEnding = ")";
@@ -262,7 +274,7 @@ class Map {
 			$sqlIntro = " AND (";
 		}
 		if (!empty($mapDifficulty)) {
-			$sql = $sql . $sqlIntro . "difficulty = :mapDifficulty" .$sqlEnding;
+			$sql = $sql . $sqlIntro . "difficulty = :mapDifficulty" . $sqlEnding;
 			$sqlIntro = " AND (";
 		}
 		if (!empty($mapLength)) {
@@ -278,7 +290,7 @@ class Map {
 		$st = $conn->prepare($sql);
 		if (!empty($objMax)) $st->bindValue(":objMax", $objMax, PDO::PARAM_INT);
 		if (!empty($objMin)) $st->bindValue(":objMin", $objMin, PDO::PARAM_INT);
-		if (!empty($mapDifficulty)) $st->bindValue(":mapDifficulty", $mapDiffculty, PDO::PARAM_STR);
+		if (!empty($mapDifficulty)) $st->bindValue(":mapDifficulty", $mapDifficulty, PDO::PARAM_STR);
 		if (!empty($mapLength)) $st->bindValue(":mapLength", $mapLength, PDO::PARAM_STR);
 		if (!empty($mapType)) $st->bindValue(":mapType", $mapType, PDO::PARAM_STR);
 		$st->execute();
@@ -379,7 +391,7 @@ class Map {
 
 	public static function getDownloadLink ($mapId = null) {
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-		$sql = "SELECT * FROM maplist WHERE id = :id;";
+		$sql = "SELECT * FROM maplist WHERE (id = :id) AND (published = 1);";
 		$st = $conn->prepare($sql);
 		$st->bindValue(":id", $mapId, PDO::PARAM_INT);
 		$st->execute();
