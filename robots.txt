@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /map_dl*
+Disallow: /admin*
+Disallow: /index.php?action=popular
+Disallow: /browse*
+Disallow: /search*
+Disallow: /submit*

@@ -71,7 +71,7 @@ h1, h2, h3, h4, h5, p {
 .headerButton {
 	background-color: #4CAF50;
 	font-size: 16px;
-	padding: 12px 24px;
+	padding: 12px 12px;
 	border-radius: 8px;
 }
 
@@ -79,6 +79,9 @@ h1, h2, h3, h4, h5, p {
 
 h1 {
   color: #eb6841;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  line-height: 110%;
 }
 
 h2, h2 a {
@@ -209,10 +212,6 @@ input:valid, textarea:valid {
 .buttons {
   text-align: center;
   margin: 40px 0 0 0;
-}
-
-a button {
-    cursor: pointer;
 }
 
 input[type="submit"] {
