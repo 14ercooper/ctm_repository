@@ -3,6 +3,7 @@
 	<head>
 		<title><?php echo htmlspecialchars($results['pageTitle']) ?></title>
 		<link rel="stylesheet" type="text/css" href="/style.css" />
+		<link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 	</head>
 	<body>
 		<center>
