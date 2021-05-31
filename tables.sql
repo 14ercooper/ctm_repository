@@ -16,6 +16,7 @@ CREATE TABLE maplist (
 	bonusObjectives tinyint unsigned NOT NULL,
 	mapType	varchar(255) NOT NULL,
 	downloadLink text NOT NULL,
+	published int NOT NULL,
 
 	PRIMARY KEY	(id)
 );
