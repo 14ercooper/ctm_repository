@@ -11,6 +11,7 @@
 				<a href="/"><img id="logo" src="images/logo.png" alt="CTM Map Repository" style="display: block; margin: auto; width:100%; text-align: center;" /></a><br>
 				<a href="/"><button class="headerButton">Home</button></a>&nbsp;
 				<a href="/index.php?action=popular"><button class="headerButton">Popular Maps</button></a>&nbsp;
+				<a href="/index.php?action=recent"><button class="headerButton">Recently Added</button></a>&nbsp;
 				<a href="/index.php?action=browse"><button class="headerButton">Browse</button></a>&nbsp;
 				<a href="/index.php?action=search"><button class="headerButton">Advanced Search</button></a>&nbsp;
 				<a href="https://ctmrepository.com/submitMap.php"><button class="headerButton">Map Submission</button></a>&nbsp;
