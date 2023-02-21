@@ -54,7 +54,7 @@ function recent () {
 	$data = Map::getList(-1);
 	$results['maps'] = $data['results'];
 
-	// Sort by popularity
+	// Sort by date added
 	$mapsToSort = $results['maps'];
 	usort($mapsToSort, "cmpRecent");
 	$results['maps'] = $mapsToSort;
