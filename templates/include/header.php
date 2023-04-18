@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<title><?php echo htmlspecialchars($results['pageTitle']) ?></title>
-		<link rel="stylesheet" type="text/css" href="/style.css" />
+		<link rel="stylesheet" type="text/css" href="/style-2.css" />
 		<link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 	</head>
 	<body>
@@ -15,10 +15,10 @@
 				<a href="/index.php?action=browse"><button class="headerButton">Browse</button></a>&nbsp;
 				<a href="/index.php?action=search"><button class="headerButton">Advanced Search</button></a>&nbsp;
 				<a href="https://ctmrepository.com/submitMap.php"><button class="headerButton">Map Submission</button></a>&nbsp;
-				<a href="http://discord.gg/Z2ZbfVQ" target="_blank"><button class="headerButton">The CTM Community</button></a>&nbsp;
-				<a href="https://www.patreon.com/14er"><button class="headerButton">Support</button></a>
+				<a href="https://ctm.community" target="_blank"><button class="headerButton">The CTM Community</button></a>
+				<a href="https://www.patreon.com/14er"><button class="headerButton">Patreon</button></a>
 				<br>
-				Top Tier Supporters Who Help Keep This Online:
-				<b>CooleyBrekka, Jevex, Heliceo, and the rest of my patrons</b>
-				<br>Thanks a bunch!
+				<a href="https://www.patreon.com/14er"><button class="patreonBanner">The CTM Repository costs over $400 a month to keep online. If you can,<br>
+				please consider chipping in a little bit on Patreon each month to help keep it online.</button></a><br>
+				To all my existing patreons who help keep this online, THANK YOU!!!
 				<hr>

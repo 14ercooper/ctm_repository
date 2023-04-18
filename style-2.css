@@ -9,7 +9,7 @@ body {
 }
 
 #container {
-  width: 960px;
+  width: 1080px;
   background: #fff;
   margin: 20px auto;
   padding: 20px;
@@ -73,6 +73,13 @@ h1, h2, h3, h4, h5, p {
 	font-size: 16px;
 	padding: 12px 12px;
 	border-radius: 8px;
+}
+
+.patreonBanner {
+  background-color: #ff7b00;
+  font-size: 16px;
+  padding: 12px 12px;
+  border-radius: 8px;
 }
 
 /* Headings */
