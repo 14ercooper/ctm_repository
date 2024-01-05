@@ -42,7 +42,7 @@
 		<tr>
             <td><?php echo Map::getNameById($comment->parentMapId) ?></td>
             <td><?php echo $comment->author ?></td>
-            <td><?php echo strlen(substr($comment->comment, 0, 201) > 200) ? substr($comment->comment, 0, 200) . "..." : $comment->comment ?></td>
+            <td><?php echo htmlspecialchars(strlen(substr($comment->comment, 0, 201) > 200) ? substr($comment->comment, 0, 200) . "..." : $comment->comment) ?></td>
             <td>
                 <a href="/admin.php?action=deleteComment&id=<?php echo $comment->id ?>">Delete Comment</a><br>
                 <a href="/admin.php?action=restoreComment&id=<?php echo $comment->id ?>">Restore Comment</a>

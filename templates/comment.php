@@ -1,7 +1,7 @@
 <div class="review">
     <div class="review-header">
         <div class="review-author">
-            <h3><?php echo $comment->author ?></h3>
+            <h3><?php echo htmlspecialchars($comment->author) ?></h3>
             <p><?php echo date("Y-m-d H:i:s", strtotime($comment->addedDate)) ?></p>
         </div>
         <div class="review-rating">
@@ -13,9 +13,9 @@
     <div class="review-content-container">
         <div class="review-comment">
         <?php if (!empty($comment->screenshotLink)) { ?>
-                <img src="<?php echo $comment->screenshotLink ?>" alt="Screenshot"/>
+                <img src="<?php echo htmlspecialchars($comment->screenshotLink) ?>" alt="Screenshot"/>
             <?php } ?>
-        <p><?php echo $comment->comment ?></p>
+        <p><?php echo htmlspecialchars($comment->comment) ?></p>
         </div>
     </div>
     <div>
