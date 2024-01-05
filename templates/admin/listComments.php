@@ -6,12 +6,7 @@
 	<p>You are currently logged in as <b><?php echo htmlspecialchars($_SESSION['username']) ?></b>. <a href="admin.php?action=logout">Log out</a></p>
 </div>
 
-<?php
-	if (isset($_GET['unpublished']))
-		echo "<h1>Unpublished Maps</h1>";
-	else
-		echo "<h1>Published Maps</h1>";
-?>
+<h1>Flagged Comments</h1>
 
 <br>
 <a href="/admin.php"><button class="headerButton">Published Maps</button></a>&nbsp;&nbsp;
@@ -32,33 +27,29 @@
 <table>
 	<tr>
 		<th>Map Title</th>
-		<th>Author</th>
-		<th>Download Count</th>
+		<th>Flagged Author</th>
+		<th>Flagged Comment</th>
+        <th>Actions</th>
 	<tr>
 
 	<?php
 		$results = array();
-		if (isset($_GET['unpublished'])) {
-			$data = Map::adminGetList(1);
-		}
-		else {
-			$data = Map::adminGetList(0);
-		}
-		$results['maps'] = $data['results'];
-
-		foreach ($results['maps'] as $map) {
+		$data = MapComment::getAllFlagged();
+		$results['comments'] = $data['results'];
+		foreach ($results['comments'] as $comment) {
 	?>
 
-		<tr onclick="location='admin.php?action=editMap&amp;mapId=<?php echo $map->id ?>'">
-			<td><?php echo $map->name ?></td>
-			<td><?php echo $map->author ?></td>
-			<td><?php echo $map->downloadCount ?></td>
-		</tr>
+		<tr>
+            <td><?php echo Map::getNameById($comment->parentMapId) ?></td>
+            <td><?php echo $comment->author ?></td>
+            <td><?php echo strlen(substr($comment->comment, 0, 201) > 200) ? substr($comment->comment, 0, 200) . "..." : $comment->comment ?></td>
+            <td>
+                <a href="/admin.php?action=deleteComment&id=<?php echo $comment->id ?>">Delete Comment</a><br>
+                <a href="/admin.php?action=restoreComment&id=<?php echo $comment->id ?>">Restore Comment</a>
+            </td>
+        </tr>
 
 	<?php } ?>
 </table>
-
-<br>
-<p><a href="admin.php?action=newMap">Add a map</a></p>
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . "/templates/include/footer.php" ?>

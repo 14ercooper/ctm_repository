@@ -25,6 +25,15 @@ switch ($action) {
 	case 'deleteMap':
 		deleteMap();
 		break;
+	case 'flaggedComments':
+		flaggedComments();
+		break;
+	case 'deleteComment':
+		deleteComment();
+		break;
+	case 'restoreComment':
+		restoreComment();
+		break;
 	default:
 		listMaps();
 }
@@ -140,6 +149,37 @@ function deleteMap () {
 	header("Location: admin.php?status=mapDeleted");
 }
 
+function flaggedComments() {
+	$results = array();
+	$data = MapComment::getAllFlagged();
+	$results['comments'] = $data['results'];
+	$results['pageTitle'] = "Flagged Comments | CTM Map Repository";
+
+	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/admin/listComments.php");
+}
+
+function deleteComment() {
+	$comment = MapComment::getById($_GET['id']);
+	if (!$comment) {
+		header("Location: admin.php?error=commentNotFound");
+		return;
+	}
+
+	$comment->delete();
+	header("Location: admin.php?status=commentDeleted");
+}
+
+function restoreComment() {
+	$comment = MapComment::getById($_GET['id']);
+	if (!$comment) {
+		header("Location: admin.php?error=commentNotFound");
+		return;
+	}
+	$comment->flagCount = 0;
+	$comment->update();
+	header("Location: admin.php?status=commentRestored");
+}
+
 function listMaps() {
 	$results = array();
 	if (isset($_GET['unpublished'])) {
@@ -153,11 +193,14 @@ function listMaps() {
 
 	if (isset( $_GET['error'])) {
 		if ($_GET['error'] == "mapNotFound") $results['errorMessage'] = "Error: Map not found.";
+		if ($_GET['error'] == "commentNotFound") $results['errorMessage'] = "Error: Comment not found";
 	}
 
 	if (isset($_GET['status'])) {
 		if ($_GET['status'] == "changesSaved") $results['statusMessage'] = "Your changes have been saved.";
 		if ($_GET['status'] == "mapDeleted") $results['statusMessage'] = "Map deleted.";
+		if ($_GET['status'] == "commentDeleted") $results['statusMessage'] = 'Comment deleted.';
+		if ($_GET['status'] == "commentRestored") $results['statusMessage'] = 'Comment restored.';
 	}
 
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/admin/listMaps.php");
