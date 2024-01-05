@@ -25,16 +25,24 @@ class Map {
 	public $dateAdded = null;
 	public $daysSinceUpload = null;
 
+	public $avgRating = null;
+	public $comments = null;
+
 	// Object constructor, using the data passed in
-	public function __constructSubmit($data = array()) {
+	public function __constructSubmit($data = array(), $commentLimit=10) {
 		$this->downloadCount = 0;
 		$this->getDataFromArray($data);
 
+		if (!empty($rating))
+			$this->avgRating = $rating;
+		else
+			$this->avgRating = "No Ratings Yet";
+		$this->comments = MapComment::getAllApprovedByMapId($this->id, $commentLimit);
 		$this->downloadCount = 0;
 	}
 
 	// Constructor
-	public function __construct($data = array()) {
+	public function __construct($data = array(), $commentLimit=10) {
 		if (isset($data['id'])) $this->id = (int) $data['id'];
 		if (isset($data['mapId'])) $this->id = (int) $data['mapId'];
 		if (isset($data['addedDate'])) $this->addedDate = (int) $data['addedDate'];
@@ -70,20 +78,25 @@ class Map {
 			$this->downloadCount = 69420;
 			$this->popScore = 0.69;
 		}
+
+		$rating = MapComment::getAvgRatingByMapId($this->id);
+		$this->avgRating = $rating ? $rating : "No Reviews Yet";
+		$allComments = MapComment::getAllApprovedByMapId($this->id, $commentLimit);
+		$this->comments = $allComments['results'];
 	}
 
 	// Stores values from a form/other input into the object
-	public function storeFormValues ($params) {
-		$this->__construct($params);
+	public function storeFormValues ($params, $commentLimit) {
+		$this->__construct($params, $commentLimit);
 	}
 
 	// Stores values from a form/other input into the object
-	public function storeSubmitFormValues ($params) {
-		$this->__construct($params);
+	public function storeSubmitFormValues ($params, $commentLimit) {
+		$this->__construct($params, $commentLimit);
 	}
 
 	// Return map by ID
-	public static function getById ($id) {
+	public static function getById ($id, $commentLimit=0) {
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
 		$sql = "SELECT * FROM maplist WHERE id = :id;";
 		$st = $conn->prepare($sql);
@@ -91,12 +104,24 @@ class Map {
 		$st->execute();
 		$row = $st->fetch();
 		$conn = null;
-		if ($row) return new Map ($row);
+		if ($row) return new Map ($row, $commentLimit);
 		return true;
 	}
 
+	public static function getNameById ($id) {
+		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+		$sql = "SELECT name FROM maplist WHERE id = :id;";
+		$st = $conn->prepare($sql);
+		$st->bindValue(":id", $id, PDO::PARAM_INT);
+		$st->execute();
+		$row = $st->fetch();
+		$conn = null;
+		if ($row) return $row['name'];
+		return true; 
+	}
+
 	// Return map by ID with published check
-	public static function getByIdPublished ($id) {
+	public static function getByIdPublished ($id, $commentLimit=0) {
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
 		$sql = "SELECT * FROM maplist WHERE (id = :id) AND (published = 1);";
 		$st = $conn->prepare($sql);
@@ -104,11 +129,11 @@ class Map {
 		$st->execute();
 		$row = $st->fetch();
 		$conn = null;
-		if ($row) return new Map ($row);
+		if ($row) return new Map ($row, $commentLimit);
 		return true;
 	}
 
-	public static function adminGetList ($onlyPending): array
+	public static function adminGetList ($onlyPending, $commentLimit=0): array
 	{
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
 		$sql = "SELECT * FROM maplist";
@@ -124,7 +149,7 @@ class Map {
 		// Place returned maps into an array
 		$list = array();
 		while ($row = $st->fetch()) {
-			$map = new Map($row);
+			$map = new Map($row, $commentLimit);
 			$list[] = $map;
 		}
 
@@ -151,7 +176,7 @@ class Map {
 	}
 
 	// Search function
-	public static function getList ($numRows=10, $order="RAND()", $mapName = null, $mapAuthor = null, $mapDifficulty = null, $mapLength = null, $mapSeries = null, $mapMapType = null, $mapObjectives = null): array
+	public static function getList ($numRows=10, $commentLimit=0, $order="RAND()", $mapName = null, $mapAuthor = null, $mapDifficulty = null, $mapLength = null, $mapSeries = null, $mapMapType = null, $mapObjectives = null): array
 	{
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
 		$sqlIntro = " WHERE (";
@@ -230,7 +255,7 @@ class Map {
 		return (array("results" => $list));
 	}
 
-	public static function getBrowseList ($objMax, $objMin, $minecraftVer, $sortOrder, $mapDifficulty, $mapLength, $mapType): array
+	public static function getBrowseList ($objMax, $objMin, $minecraftVer, $sortOrder, $mapDifficulty, $mapLength, $mapType, $commentLimit=0): array
 	{
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
 		$sqlIntro = " WHERE (";
@@ -277,7 +302,7 @@ class Map {
 		// Place returned maps into an array
 		$list = array();
 		while ($row = $st->fetch()) {
-			$map = new Map($row);
+			$map = new Map($row, $commentLimit);
 			$list[] = $map;
 		}
 
@@ -287,13 +312,13 @@ class Map {
 	}
 
 	// Get a random map from database
-	public static function getRandomMap () {
+	public static function getRandomMap ($commentLimit=0) {
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
 		$st = $conn->prepare("SELECT * FROM maplist WHERE published = 1 ORDER BY RAND() LIMIT 1;");
 		$st->execute();
 		$row = $st->fetch();
 		$conn = null;
-		if ($row) return new Map ($row);
+		if ($row) return new Map ($row, $commentLimit);
 		return true;
 	}
 
