@@ -19,6 +19,20 @@ switch ($action) {
 	case 'viewMap':
 		viewMap();
 		break;
+	case 'comment':
+		postComment();
+		break;
+	case 'submitComment':
+		submitComment();
+		viewMap();
+		break;
+	case 'viewComments':
+		viewComments();
+		break;
+	case 'reportComment':
+		reportComment();
+		viewMap();
+		break;
 	default:
 		homepage();
 }
@@ -79,7 +93,7 @@ function viewMap () {
 	}
 
 	$results = array();
-	$dispMap = Map::getByIdPublished((int) $_GET["id"]);
+	$dispMap = Map::getByIdPublished((int) $_GET["id"], 10);
 	if (is_object($dispMap)) {
 		$results['pageTitle'] = $dispMap->name . " | CTM Map Repository";
 	}
@@ -87,6 +101,49 @@ function viewMap () {
 		$results['pageTitle'] = "Error | CTM Map Repository";
 	}
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/viewMap.php");
+}
+
+function postComment() {
+	if (!isset($_GET["id"]) || !$_GET["id"]) {
+		homepage();
+		return;
+	}
+
+	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/submitCommentForm.php");
+}
+
+function submitComment() {
+	if (!isset($_POST) || !$_POST || !isset($_GET["id"]) || !$_GET["id"]) {
+		homepage();
+		return;
+	}
+
+	$mapComment = new MapComment();
+	$mapComment->storeFormValues($_POST);
+	$mapComment->insert();
+}
+
+function viewComments() {
+	if (!isset($_GET["id"]) || !$_GET["id"]) {
+		homepage();
+		return;
+	}
+
+	$dispMap = Map::getByIdPublished((int) $_GET["id"], 0);
+	$results['pageTitle'] = "View Comments For " . $dispMap->name . " | CTM Map Repository";
+	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/browseComments.php");
+}
+
+function reportComment() {
+	if (!isset($_GET["id"]) || !$_GET["id"] || !isset($_GET["commentId"]) || !$_GET["commentId"]) {
+		homepage();
+		return;
+	}
+
+	$mapComment = MapComment::getById($_GET["commentId"]);
+	$mapComment->flagCount++;
+	$mapComment->update();
+	header("Location: index.php?action=viewMap&status=commentReported&id=" . $mapComment->parentMapId . "&commentId=" . $mapComment->id);
 }
 
 function homepage () {

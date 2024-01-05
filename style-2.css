@@ -317,3 +317,61 @@ tr:hover {
   border: 1px solid #800;
   color: #fff;
 }
+
+.reviewContainer {
+  padding: 2em;
+}
+
+.review {
+  border: 1px solid gray;
+  background-color: #eee;
+  padding: .5em;
+  margin: .5em;
+}
+
+.review:nth-child(even) {
+  background-color: #ddd;
+}
+
+.review-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.review-author {
+  display: flex;
+  flex: auto;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.review-author p {
+  padding: .2em;
+}
+
+.review-rating {
+  width: 120px;
+}
+
+.review-comment img {
+  float: right;
+  width: 50%;
+  margin: 0px 20px;
+}
+
+.review-comment p {
+  display: block;
+  text-align: justify;
+}
+
+.report {
+  display: block;
+  text-decoration: none;
+  text-align: right;
+  color: brown;
+}
+
+.rating-star {
+  color: goldenrod;
+}
