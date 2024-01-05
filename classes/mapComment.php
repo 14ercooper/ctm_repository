@@ -148,7 +148,9 @@ class MapComment {
     public function bindValues($st) : void {
         $st->bindValue(":mapId", $this->parentMapId, PDO::PARAM_INT);
         $st->bindValue(":author", $this->author);
-        $st->bindValue(":rating", $this->rating, PDO::PARAM_INT);
+        if ($this->rating > 0)
+            $st->bindValue(":rating", $this->rating, PDO::PARAM_INT);
+        else $st->bindValue(":rating", null);
         $st->bindValue(":comment", $this->comment);
         $st->bindValue(":screenshotLink", $this->screenshotLink);
     }
