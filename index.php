@@ -30,9 +30,9 @@ function cmpPopular ($a, $b) {
 }
 
 function cmpRecent ($a, $b) {
-	if ($a->dateAdded == $b->dateAdded)
+	if ($a->addedDate == $b->addedDate)
 		return 0;
-	return ($a->dateAdded > $b->dateAdded) ? -1 : 1;
+	return ($a->addedDate > $b->addedDate) ? -1 : 1;
 }
 
 function popular () {
@@ -91,7 +91,7 @@ function viewMap () {
 
 function homepage () {
 	$results = array();
-	$results['featured'] = Map::getById(315);
+	$results['featured'] = Map::getById(560);
 	$results['random'] = Map::getRandomMap();
 	$results['pageTitle'] = "CTM Maps Repository";
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/homepage.php");
