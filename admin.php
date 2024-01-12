@@ -175,8 +175,7 @@ function restoreComment() {
 		header("Location: admin.php?error=commentNotFound");
 		return;
 	}
-	$comment->flagCount = 0;
-	$comment->update();
+	$comment->approveByAdmin();
 	header("Location: admin.php?status=commentRestored");
 }
 

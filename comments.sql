@@ -8,6 +8,7 @@ CREATE TABLE mapComments (
     comment mediumtext NOT NULL,
     screenshotLink text NULL,
     flagCount tinyint unsigned NOT NULL,
+    adminApproved tinyint unsigned NOT NULL,
 
     PRIMARY KEY (id),
     CONSTRAINT FK_ratingToMap FOREIGN KEY (mapId) REFERENCES maplist(id)

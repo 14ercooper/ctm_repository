@@ -9,6 +9,7 @@ class MapComment {
     public $comment = null;
     public $screenshotLink = null;
     public $flagCount = null;
+    public $adminApproved = null;
 
     public function __construct($data = array()) {
         if (isset($data['id'])) $this->id = (int) $data['id'];
@@ -19,6 +20,7 @@ class MapComment {
         if (isset($data['comment'])) $this->comment = $data['comment'];
         if (isset($data['screenshotLink'])) $this->screenshotLink = $data['screenshotLink'];
         if (isset($data['flagCount'])) $this->flagCount = $data['flagCount'];
+        if (isset($data['adminApproved'])) $this->adminApproved = $data['adminApproved'];
 
         if (isset($data['addedDate'])) {
             $yearAdded = $this->addedDate - ($this->addedDate % 10000000000);
@@ -54,7 +56,7 @@ class MapComment {
 
     public static function getAllApprovedByMapId($id, $numResults=0) {
         $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $sql = "SELECT * FROM mapComments WHERE mapId = :mapId AND flagCount < :flagCount ORDER BY addedDate DESC ";
+        $sql = "SELECT * FROM mapComments WHERE mapId = :mapId AND (flagCount < :flagCount OR adminApproved = 1) ORDER BY addedDate DESC ";
         if ($numResults > 0)
             $sql = $sql . "LIMIT :numResults";
         $sql = $sql . ";";
@@ -77,7 +79,7 @@ class MapComment {
 
     public static function getAllFlagged() {
         $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $sql = "SELECT * FROM mapComments WHERE flagCount >= :flagCount ORDER BY addedDate DESC;";
+        $sql = "SELECT * FROM mapComments WHERE flagCount >= :flagCount AND adminApproved = 0 ORDER BY addedDate DESC;";
         $st = $conn->prepare($sql);
         $st->bindValue(":flagCount", AMNT_FLAGS_BEFORE_REMOVE, PDO::PARAM_INT);
         $st->execute();
@@ -107,8 +109,8 @@ class MapComment {
     
     public function insert() {
         $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $sql = "INSERT INTO mapComments (mapId, addedDate, author, rating, comment, screenshotLink, flagCount)" .
-        "VALUES (:mapId, " . date("YmdHis") . ", :author, :rating, :comment, :screenshotLink, 0)";
+        $sql = "INSERT INTO mapComments (mapId, addedDate, author, rating, comment, screenshotLink, flagCount, adminApproved)" .
+        "VALUES (:mapId, " . date("YmdHis") . ", :author, :rating, :comment, :screenshotLink, 0, 0)";
         $st = $conn->prepare($sql);
         $st->bindValue(":mapId", $this->parentMapId, PDO::PARAM_INT);
         $st->bindValue(":author", $this->author);
@@ -132,10 +134,20 @@ class MapComment {
         $conn = null;
     }
 
+    public function approveByAdmin() {
+        if (is_null($this->id)) trigger_error("MapComment::approveByAdmin(): This comment object does not have an id", E_USER_ERROR);
+        $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $sql = "UPDATE mapComments SET adminApproved = 1 WHERE id = :id";
+        $st = $conn->prepare($sql);
+        $st->bindValue(":id", $this->id, PDO::PARAM_INT);
+        $st->execute();
+        $conn = null;
+    }
+
     public function update() {
         if (is_null($this->id)) trigger_error("MapComment::update(): This comment object does not have an id", E_USER_ERROR);
         $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $sql = "UPDATE mapComments SET mapId = :mapId, author = :author, rating = :rating, comment = :comment, screenshotLink = :screenshotLink, flagCount = :flagCount " .
+        $sql = "UPDATE mapComments SET mapId = :mapId, author = :author, rating = :rating, comment = :comment, screenshotLink = :screenshotLink, flagCount = :flagCount, adminApproved = :adminApproved " .
         "WHERE id = :id";
         $st = $conn->prepare($sql);
         $st->bindValue(":mapId", $this->parentMapId, PDO::PARAM_INT);
@@ -147,6 +159,7 @@ class MapComment {
         $st->bindValue(":screenshotLink", $this->screenshotLink);
         $st->bindValue(":id", $this->id, PDO::PARAM_INT);
         $st->bindValue(":flagCount", $this->flagCount, PDO::PARAM_INT);
+        $st->bindValue(":adminApproved", $this->adminApproved, PDO::PARAM_INT);
         $st->execute();
         $conn = null;
     }
