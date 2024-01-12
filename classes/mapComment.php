@@ -122,6 +122,16 @@ class MapComment {
         $conn = null;
     }
 
+    public function incrementFlagCount() {
+        if (is_null($this->id)) trigger_error("MapComment::incrementFlagCount(): This comment object does not have an id", E_USER_ERROR);
+        $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $sql = "UPDATE mapComments SET flagCount = flagCount + 1 WHERE id = :id";
+        $st = $conn->prepare($sql);
+        $st->bindValue(":id", $this->id, PDO::PARAM_INT);
+        $st->execute();
+        $conn = null;
+    }
+
     public function update() {
         if (is_null($this->id)) trigger_error("MapComment::update(): This comment object does not have an id", E_USER_ERROR);
         $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);

@@ -143,8 +143,7 @@ function reportComment() {
 	}
 
 	$mapComment = MapComment::getById($_GET["commentId"]);
-	$mapComment->flagCount++;
-	$mapComment->update();
+	$mapComment->incrementFlagCount();
 	header("Location: index.php?action=viewMap&status=commentReported&id=" . $mapComment->parentMapId . "&commentId=" . $mapComment->id);
 }
 
