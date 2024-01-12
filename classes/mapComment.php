@@ -50,7 +50,6 @@ class MapComment {
 
         $row = $st->fetch();
         if ($row) return new MapComment($row);
-        return true;
     }
 
     public static function getAllApprovedByMapId($id, $numResults=0) {
@@ -104,7 +103,6 @@ class MapComment {
         $rating = $st->fetch();
         $conn = null;
         if ($rating) return $rating[0];
-        return false;
     }
     
     public function insert() {
