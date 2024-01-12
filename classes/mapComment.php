@@ -14,7 +14,11 @@ class MapComment {
         if (isset($data['id'])) $this->id = (int) $data['id'];
         if (isset($data['mapId'])) $this->parentMapId = (int) $data['mapId'];
         if (isset($data['addedDate'])) $this->addedDate = (int) $data['addedDate'];
-        $this->getDataFromArray($data);
+        if (isset($data['author'])) $this->author = $data['author'];
+        if (isset($data['rating'])) $this->rating = (int) $data['rating'];
+        if (isset($data['comment'])) $this->comment = $data['comment'];
+        if (isset($data['screenshotLink'])) $this->screenshotLink = $data['screenshotLink'];
+        if (isset($data['flagCount'])) $this->flagCount = $data['flagCount'];
 
         if (isset($data['addedDate'])) {
             $yearAdded = $this->addedDate - ($this->addedDate % 10000000000);
@@ -108,7 +112,13 @@ class MapComment {
         $sql = "INSERT INTO mapComments (mapId, addedDate, author, rating, comment, screenshotLink, flagCount)" .
         "VALUES (:mapId, " . date("YmdHis") . ", :author, :rating, :comment, :screenshotLink, 0)";
         $st = $conn->prepare($sql);
-        $this->bindValues($st);
+        $st->bindValue(":mapId", $this->parentMapId, PDO::PARAM_INT);
+        $st->bindValue(":author", $this->author);
+        if ($this->rating > 0)
+            $st->bindValue(":rating", $this->rating, PDO::PARAM_INT);
+        else $st->bindValue(":rating", null);
+        $st->bindValue(":comment", $this->comment);
+        $st->bindValue(":screenshotLink", $this->screenshotLink);
         $st->execute();
         $this->id = $conn->lastInsertId();
         $conn = null;
@@ -120,7 +130,13 @@ class MapComment {
         $sql = "UPDATE mapComments SET mapId = :mapId, author = :author, rating = :rating, comment = :comment, screenshotLink = :screenshotLink, flagCount = :flagCount " .
         "WHERE id = :id";
         $st = $conn->prepare($sql);
-        $this->bindValues($st);
+        $st->bindValue(":mapId", $this->parentMapId, PDO::PARAM_INT);
+        $st->bindValue(":author", $this->author);
+        if ($this->rating > 0)
+            $st->bindValue(":rating", $this->rating, PDO::PARAM_INT);
+        else $st->bindValue(":rating", null);
+        $st->bindValue(":comment", $this->comment);
+        $st->bindValue(":screenshotLink", $this->screenshotLink);
         $st->bindValue(":id", $this->id, PDO::PARAM_INT);
         $st->bindValue(":flagCount", $this->flagCount, PDO::PARAM_INT);
         $st->execute();
@@ -135,24 +151,6 @@ class MapComment {
         $st->bindValue(":id", $this->id, PDO::PARAM_INT);
         $st->execute();
         $conn = null;
-    }
-
-    public function getDataFromArray($data) : void {
-        if (isset($data['author'])) $this->author = $data['author'];
-        if (isset($data['rating'])) $this->rating = (int) $data['rating'];
-        if (isset($data['comment'])) $this->comment = $data['comment'];
-        if (isset($data['screenshotLink'])) $this->screenshotLink = $data['screenshotLink'];
-        if (isset($data['flagCount'])) $this->flagCount = $data['flagCount'];
-    }
-
-    public function bindValues($st) : void {
-        $st->bindValue(":mapId", $this->parentMapId, PDO::PARAM_INT);
-        $st->bindValue(":author", $this->author);
-        if ($this->rating > 0)
-            $st->bindValue(":rating", $this->rating, PDO::PARAM_INT);
-        else $st->bindValue(":rating", null);
-        $st->bindValue(":comment", $this->comment);
-        $st->bindValue(":screenshotLink", $this->screenshotLink);
     }
 }
 
