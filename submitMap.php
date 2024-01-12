@@ -48,34 +48,36 @@ function upload() {
     // Check if image file is a actual image or fake image
     if(isset($_POST["submit"])) {
         $check = getimagesize($_FILES["imageFile"]["tmp_name"]);
+	$check = true;
         $ext = pathinfo($_FILES['imageFile']['name'], PATHINFO_EXTENSION);
         if($check !== false) {
             $uploadOk = 1;
         } else {
-            echo "err1";
+//            echo "err1";
             $uploadOk = 0;
         }
     }
     $target_file = $target_file . "." . $ext;
     // Check if file already exists
     if (file_exists($target_file)) {
-        echo "err2";
+//        echo "err2";
         $uploadOk = 0;
     }
     // Check file size
-    if ($_FILES["imageFile"]["size"] > 5000000) {
-        echo "err3";
+    if ($_FILES["imageFile"]["size"] > 25000000) {
+//        echo "err3";
         $uploadOk = 0;
     }
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
+//	error "err5";
         return 0;
     // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["imageFile"]["tmp_name"], $target_file)) {
             return $imageId . "." . $ext;
         } else {
-            echo "err4";
+//            echo "err4";
             return 0;
         }
     }

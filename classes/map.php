@@ -1,6 +1,4 @@
-<?php /** @noinspection SqlNoDataSourceInspection */
-/** @noinspection SqlResolve */
-
+<?php
 // This class handles maps
 class Map {
 	// Properties of maps from the database
@@ -31,13 +29,25 @@ class Map {
 	// Object constructor, using the data passed in
 	public function __constructSubmit($data = array(), $commentLimit=10) {
 		$this->downloadCount = 0;
-		$this->getDataFromArray($data);
 
 		if (!empty($rating))
 			$this->avgRating = $rating;
 		else
 			$this->avgRating = "No Ratings Yet";
 		$this->comments = MapComment::getAllApprovedByMapId($this->id, $commentLimit);
+		if (isset($data['objectives'])) $this->objectives = (int) $data['objectives'];
+		if (isset($data['bonusObjectives'])) $this->bonusObjectives = (int) $data['bonusObjectives'];
+		else $this->bonusObjectives = 0;
+		if (isset($data['name'])) $this->name = $data['name'];
+		if (isset($data['author'])) $this->author = $data['author'];
+		if (isset($data['difficulty'])) $this->difficulty = $data['difficulty'];
+		if (isset($data['length'])) $this->length = $data['length'];
+		if (isset($data['shortDescription'])) $this->shortDescription = $data['shortDescription'];
+		if (isset($data['minecraftVersion'])) $this->minecraftVersion = $data['minecraftVersion'];
+		if (isset($data['series'])) $this->series = $data['series'];
+		if (isset($data['mapType'])) $this->mapType = $data['mapType'];
+		if (isset($data['downloadLink'])) $this->downloadLink = $data['downloadLink'];
+		if (isset($data['longDescription'])) $this->longDescription = $data['longDescription'];
 		$this->downloadCount = 0;
 	}
 
@@ -47,7 +57,20 @@ class Map {
 		if (isset($data['mapId'])) $this->id = (int) $data['mapId'];
 		if (isset($data['addedDate'])) $this->addedDate = (int) $data['addedDate'];
 		if (isset($data['downloadCount'])) $this->downloadCount = (int) $data['downloadCount'];
-		$this->getDataFromArray($data);
+		if (isset($data['objectives'])) $this->objectives = (int) $data['objectives'];
+		if (isset($data['bonusObjectives'])) $this->bonusObjectives = (int) $data['bonusObjectives'];
+		else $this->bonusObjectives = 0;
+		if (isset($data['name'])) $this->name = $data['name'];
+		if (isset($data['author'])) $this->author = $data['author'];
+		if (isset($data['difficulty'])) $this->difficulty = $data['difficulty'];
+		if (isset($data['length'])) $this->length = $data['length'];
+		if (isset($data['shortDescription'])) $this->shortDescription = $data['shortDescription'];
+		if (isset($data['imageURL'])) $this->imageURL = $data['imageURL'];
+		if (isset($data['minecraftVersion'])) $this->minecraftVersion = $data['minecraftVersion'];
+		if (isset($data['series'])) $this->series = $data['series'];
+		if (isset($data['mapType'])) $this->mapType = $data['mapType'];
+		if (isset($data['downloadLink'])) $this->downloadLink = $data['downloadLink'];
+		if (isset($data['longDescription'])) $this->longDescription = $data['longDescription'];
 
 		if (isset($data['addedDate'])) {
 			$yearAdded = $this->addedDate - ($this->addedDate % 10000);
@@ -105,7 +128,6 @@ class Map {
 		$row = $st->fetch();
 		$conn = null;
 		if ($row) return new Map ($row, $commentLimit);
-		return true;
 	}
 
 	public static function getNameById ($id) {
@@ -117,7 +139,6 @@ class Map {
 		$row = $st->fetch();
 		$conn = null;
 		if ($row) return $row['name'];
-		return true; 
 	}
 
 	// Return map by ID with published check
@@ -130,10 +151,9 @@ class Map {
 		$row = $st->fetch();
 		$conn = null;
 		if ($row) return new Map ($row, $commentLimit);
-		return true;
 	}
 
-	public static function adminGetList ($onlyPending, $commentLimit=0): array
+	public static function adminGetList ($onlyPending, $commentLimit=0)
 	{
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
 		$sql = "SELECT * FROM maplist";
@@ -160,6 +180,7 @@ class Map {
 
 	public function makePublished($published) {
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
+		$levenshteinTolerance = 3;
 		if ($published) {
 			$sql = "UPDATE maplist SET published = 1 WHERE id = " . $this->id;
 		}
@@ -176,9 +197,10 @@ class Map {
 	}
 
 	// Search function
-	public static function getList ($numRows=10, $commentLimit=0, $order="RAND()", $mapName = null, $mapAuthor = null, $mapDifficulty = null, $mapLength = null, $mapSeries = null, $mapMapType = null, $mapObjectives = null): array
+	public static function getList ($numRows=10, $commentLimit=0, $order="RAND()", $mapName = null, $mapAuthor = null, $mapDifficulty = null, $mapLength = null, $mapSeries = null, $mapMapType = null, $mapObjectives = null)
 	{
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
+		$levenshteinTolerance = 5;
 		$sqlIntro = " WHERE (";
 		$sqlEnding = ")";
 
@@ -202,6 +224,7 @@ class Map {
 		}
 		if (!empty($mapObjectives)) {
 			$sql = $sql . $sqlIntro . "objectives = :mapObjectives" . $sqlEnding;
+			$sqlIntro = " AND (";
 		}
 
 		if (!empty($mapName) && !empty($mapAuthor) && !empty($mapSeries)) {
@@ -234,12 +257,12 @@ class Map {
 		// Initialize the SQL query
 		$st = $conn->prepare($sql);
 		if ($numRows != -1) $st->bindValue(":numRows", $numRows, PDO::PARAM_INT);
-		if (!empty($mapName)) $st->bindValue(":mapName", $mapName);
-		if (!empty($mapAuthor)) $st->bindValue(":mapAuthor", $mapAuthor);
-		if (!empty($mapSeries)) $st->bindValue(":mapSeries", $mapSeries);
-		if (!empty($mapDifficulty)) $st->bindValue(":mapDifficulty", $mapDifficulty);
-		if (!empty($mapLength)) $st->bindValue(":mapLength", $mapLength);
-		if (!empty($mapMapType)) $st->bindValue(":mapMapType", $mapMapType);
+		if (!empty($mapName)) $st->bindValue(":mapName", $mapName, PDO::PARAM_STR);
+		if (!empty($mapAuthor)) $st->bindValue(":mapAuthor", $mapAuthor, PDO::PARAM_STR);
+		if (!empty($mapSeries)) $st->bindValue(":mapSeries", $mapSeries, PDO::PARAM_STR);
+		if (!empty($mapDifficulty)) $st->bindValue(":mapDifficulty", $mapDifficulty, PDO::PARAM_STR);
+		if (!empty($mapLength)) $st->bindValue(":mapLength", $mapLength, PDO::PARAM_STR);
+		if (!empty($mapMapType)) $st->bindValue(":mapMapType", $mapMapType, PDO::PARAM_STR);
 		if (!empty($mapObjectives)) $st->bindValue(":mapObjectives", $mapObjectives, PDO::PARAM_INT);
 		$st->execute();
 
@@ -255,7 +278,7 @@ class Map {
 		return (array("results" => $list));
 	}
 
-	public static function getBrowseList ($objMax, $objMin, $minecraftVer, $sortOrder, $mapDifficulty, $mapLength, $mapType, $commentLimit=0): array
+	public static function getBrowseList ($objMax, $objMin, $minecraftVer, $sortOrder, $mapDifficulty, $mapLength, $mapType, $commentLimit=0)
 	{
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD); // Create a PDO pointing at the database
 		$sqlIntro = " WHERE (";
@@ -288,15 +311,16 @@ class Map {
 		}
 		if (!empty($mapType)) {
 			$sql = $sql . $sqlIntro . "mapType = :mapType" .$sqlEnding;
+			$sqlIntro = " AND (";
 		}
 		$sql = $sql . " ORDER BY " . $sortOrder;
 
 		$st = $conn->prepare($sql);
 		if (!empty($objMax)) $st->bindValue(":objMax", $objMax, PDO::PARAM_INT);
 		if (!empty($objMin)) $st->bindValue(":objMin", $objMin, PDO::PARAM_INT);
-		if (!empty($mapDifficulty)) $st->bindValue(":mapDifficulty", $mapDifficulty);
-		if (!empty($mapLength)) $st->bindValue(":mapLength", $mapLength);
-		if (!empty($mapType)) $st->bindValue(":mapType", $mapType);
+		if (!empty($mapDifficulty)) $st->bindValue(":mapDifficulty", $mapDifficulty, PDO::PARAM_STR);
+		if (!empty($mapLength)) $st->bindValue(":mapLength", $mapLength, PDO::PARAM_STR);
+		if (!empty($mapType)) $st->bindValue(":mapType", $mapType, PDO::PARAM_STR);
 		$st->execute();
 
 		// Place returned maps into an array
@@ -319,16 +343,28 @@ class Map {
 		$row = $st->fetch();
 		$conn = null;
 		if ($row) return new Map ($row, $commentLimit);
-		return true;
-	}
+}
 
 	// Add a new map to the database
 	public function insert () {
+		$downloadCount = 0;
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
 		$sql = "INSERT INTO maplist (addedDate, name, author, difficulty, length, shortDescription, longDescription, imageURL, minecraftVersion, downloadCount, series, objectives, bonusObjectives, mapType, downloadLink) " .
 		" VALUES (" . date("Ymd") . ", :name, :author, :difficulty, :length, :shortDescription, :longDescription, :imageURL, :minecraftVersion, 0, :series, :objectives, :bonusObjectives, :mapType, :downloadLink);";
 		$st = $conn->prepare ($sql);
-		$this->bindValues($st);
+		$st->bindValue(":name", $this->name, PDO::PARAM_STR);
+		$st->bindValue(":author", $this->author, PDO::PARAM_STR);
+		$st->bindValue(":difficulty", $this->difficulty, PDO::PARAM_STR);
+		$st->bindValue(":length", $this->length, PDO::PARAM_STR);
+		$st->bindValue(":shortDescription", $this->shortDescription, PDO::PARAM_STR);
+		$st->bindValue(":longDescription", $this->longDescription, PDO::PARAM_STR);
+		$st->bindValue(":imageURL", $this->imageURL, PDO::PARAM_STR);
+		$st->bindValue(":minecraftVersion", $this->minecraftVersion, PDO::PARAM_STR);
+		$st->bindValue(":series", $this->series, PDO::PARAM_STR);
+		$st->bindValue(":objectives", $this->objectives, PDO::PARAM_INT);
+		$st->bindValue(":bonusObjectives", $this->bonusObjectives, PDO::PARAM_INT);
+		$st->bindValue(":mapType", $this->mapType, PDO::PARAM_STR);
+		$st->bindValue(":downloadLink", $this->downloadLink, PDO::PARAM_STR);
 		$st->execute();
 		$this->id = $conn->lastInsertId();
 		$conn = null;
@@ -342,7 +378,19 @@ class Map {
 				", minecraftVersion=:minecraftVersion, series=:series, objectives=:objectives, bonusObjectives=:bonusObjectives, mapType=:mapType, downloadLink=:downloadLink, downloadCount=:downloadCount WHERE id=:id;";
 		$st = $conn->prepare($sql);
 		$st->bindValue(":addedDate", $this->addedDate, PDO::PARAM_INT);
-		$this->bindValues($st);
+		$st->bindValue(":name", $this->name, PDO::PARAM_STR);
+		$st->bindValue(":author", $this->author, PDO::PARAM_STR);
+		$st->bindValue(":difficulty", $this->difficulty, PDO::PARAM_STR);
+		$st->bindValue(":length", $this->length, PDO::PARAM_STR);
+		$st->bindValue(":shortDescription", $this->shortDescription, PDO::PARAM_STR);
+		$st->bindValue(":longDescription", $this->longDescription, PDO::PARAM_STR);
+		$st->bindValue(":imageURL", $this->imageURL, PDO::PARAM_STR);
+		$st->bindValue(":minecraftVersion", $this->minecraftVersion, PDO::PARAM_STR);
+		$st->bindValue(":series", $this->series, PDO::PARAM_STR);
+		$st->bindValue(":objectives", $this->objectives, PDO::PARAM_INT);
+		$st->bindValue(":bonusObjectives", $this->bonusObjectives, PDO::PARAM_INT);
+		$st->bindValue(":mapType", $this->mapType, PDO::PARAM_STR);
+		$st->bindValue(":downloadLink", $this->downloadLink, PDO::PARAM_STR);
 		$st->bindValue(":downloadCount", $this->downloadCount, PDO::PARAM_INT);
 		$st->bindValue(":id", $this->id, PDO::PARAM_INT);
 		$st->execute();
@@ -357,7 +405,7 @@ class Map {
 		$st->execute();
 		$row = $st->fetch();
 		$conn = null;
-		if ($row) new Map ($row);
+		if ($row) $thisMap = new Map ($row);
 		$downloadCounter = $row['downloadCount'];
 		$downloadCounter = $downloadCounter + 1;
 		$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
@@ -389,46 +437,5 @@ class Map {
 		$st->execute();
 		$conn = null;
 	}
-
-	/**
-	 * @param $data
-	 */
-	public function getDataFromArray($data): void
-	{
-		if (isset($data['objectives'])) $this->objectives = (int)$data['objectives'];
-		if (isset($data['bonusObjectives'])) $this->bonusObjectives = (int)$data['bonusObjectives'];
-		else $this->bonusObjectives = 0;
-		if (isset($data['name'])) $this->name = $data['name'];
-		if (isset($data['author'])) $this->author = $data['author'];
-		if (isset($data['difficulty'])) $this->difficulty = $data['difficulty'];
-		if (isset($data['length'])) $this->length = $data['length'];
-		if (isset($data['shortDescription'])) $this->shortDescription = $data['shortDescription'];
-		if (isset($data['imageURL'])) $this->imageURL = $data['imageURL'];
-		if (isset($data['minecraftVersion'])) $this->minecraftVersion = $data['minecraftVersion'];
-		if (isset($data['series'])) $this->series = $data['series'];
-		if (isset($data['mapType'])) $this->mapType = $data['mapType'];
-		if (isset($data['downloadLink'])) $this->downloadLink = $data['downloadLink'];
-		if (isset($data['longDescription'])) $this->longDescription = $data['longDescription'];
-	}
-
-	/**
-	 * @param $st
-	 */
-	public function bindValues($st): void
-	{
-		$st->bindValue(":name", $this->name);
-		$st->bindValue(":author", $this->author);
-		$st->bindValue(":difficulty", $this->difficulty);
-		$st->bindValue(":length", $this->length);
-		$st->bindValue(":shortDescription", $this->shortDescription);
-		$st->bindValue(":longDescription", $this->longDescription);
-		$st->bindValue(":imageURL", $this->imageURL);
-		$st->bindValue(":minecraftVersion", $this->minecraftVersion);
-		$st->bindValue(":series", $this->series);
-		$st->bindValue(":objectives", $this->objectives, PDO::PARAM_INT);
-		$st->bindValue(":bonusObjectives", $this->bonusObjectives, PDO::PARAM_INT);
-		$st->bindValue(":mapType", $this->mapType);
-		$st->bindValue(":downloadLink", $this->downloadLink);
-	}
 }
-
+?>
