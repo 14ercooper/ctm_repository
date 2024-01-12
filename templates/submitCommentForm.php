@@ -1,6 +1,6 @@
 <?php include $_SERVER['DOCUMENT_ROOT'] . "/templates/include/header.php" ?>
 
-<h1>Post A Comment!</h1>
+<h1>Post A Comment For <?php echo $dispMap->name ?></h1>
 <hr>
 
 <form action=<?php echo "index.php?action=submitComment&id=" . $_GET['id'] ?> method="post">

@@ -109,6 +109,8 @@ function postComment() {
 		return;
 	}
 
+	$dispMap = Map::getByIdPublished((int) $_GET['id'], 1);
+	$results['pageTitle'] = "Post A Comment For " . $dispMap->name . " | CTM Map Repository";
 	require($_SERVER['DOCUMENT_ROOT'] . TEMPLATE_PATH . "/submitCommentForm.php");
 }
 
