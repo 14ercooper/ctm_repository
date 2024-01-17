@@ -347,17 +347,21 @@ tr:hover {
 }
 
 .review-author p {
-  padding: .2em;
+  padding: 0em .5em;
 }
 
 .review-rating {
-  width: 120px;
+  display: inline-block;
+}
+
+.review-comment {
+  display: inline-block;
 }
 
 .review-comment img {
   float: right;
   width: 50%;
-  margin: 0px 20px;
+  margin: 10px 20px;
 }
 
 .review-comment p {
