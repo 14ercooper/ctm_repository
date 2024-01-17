@@ -16,6 +16,7 @@
 <br>
 <a href="/admin.php"><button class="headerButton">Published Maps</button></a>&nbsp;&nbsp;
 <a href="/admin.php?unpublished=true"><button class="headerButton">Unpublished Maps</button></a>&nbsp;&nbsp;
+<a href="/admin.php?action=flaggedComments"><button class="headerButton">Flagged Comments</button></a>&nbsp;&nbsp;
 
 <?php if ( isset( $results['errorMessage'] ) ) { ?>
 	<div class="errorMessage"><?php echo $results['errorMessage'] ?></div>

@@ -8,6 +8,17 @@
 	}
 ?>
 
+<?php 
+	$status = isset($_GET['status']) ? $_GET['status'] : "";
+	if ($status == "commentReported") {
+		$comment = MapComment::getById($_GET['commentId']);
+		if ($comment->flagCount >= AMNT_FLAGS_BEFORE_REMOVE) {
+?>
+	<div class="statusMessage">Thank you for reporting this comment. It has gone under review and will be reviewed by a moderator. Please continue to keep our community safe!</div>
+<?php } else { ?>
+	<div class="statusMessage">Thank you for reporting this comment. We will continue to monitor this comment for more reports. Please continue to keep our community safe!</div>
+<?php } } ?>
+
 <div class="mapView">
 	<img src="<?php echo $dispMap->imageURL ?>" alt="Map thumbnail" style="float:left;width:100%;"/><hr style="height:15pt; visibility:hidden;" />
 	<br><br>
@@ -18,9 +29,18 @@
 	<h3><?php echo "Objectives: " . $dispMap->objectives . " required + " . $dispMap->bonusObjectives . " bonus" ?></h3><br>
 	<h3><?php echo "Difficulty: " . $dispMap->difficulty ?></h3><br>
 	<h3><?php echo "For Minecraft " . $dispMap->minecraftVersion ?></h3><br>
+	<h3><?php echo "Rating: " . $dispMap->avgRating ?></h3><br>
 	<h3><?php echo "Map Type: " . $dispMap->mapType ?></h3><hr>
 	<p class="longBlurb"><?php echo $dispMap->longDescription ?></p><br>
-	<a href="/download.php?id=<?php echo $dispMap->id ?>" target="_blank"><button class="download">Download Now!</button></a><br>
+	<a href="/download.php?id=<?php echo $dispMap->id ?>" target="_blank"><button class="download">Download Now!</button></a><br><hr>
+	<h3>Recent Comments</h3><br>
+	<div class="reviewContainer">
+		<?php if (!is_null($dispMap->comments)) foreach ($dispMap->comments as $comment) { ?>
+			<?php include $_SERVER['DOCUMENT_ROOT'] . "/templates/comment.php" ?>
+		<?php } ?>
+	</div>
+	<a href="/index.php?action=viewComments&id=<?php echo $dispMap->id ?>"><button class="download">Browse All Comments</button></a>
+	<a href="/index.php?action=comment&id=<?php echo $dispMap->id ?>" target="_blank"><button class="download">Post A Comment!</button></a><br>
 </div>
 <hr>
 
