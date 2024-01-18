@@ -20,7 +20,7 @@
     </div>
     <div>
         <?php if (!isset($_GET['status']) && !isset($_GET['commentId']) || isset($_GET['commentId']) && $_GET['commentId'] != $comment->id) { ?>
-            <a href="index.php?action=reportComment&id=<?php echo $comment->parentMapId ?>&commentId=<?php echo $comment->id ?>"><p class="report">Report Comment</p></a>
+            <a href="#" onclick="confirmReport(<?php echo $comment->id ?>)"><p class="report">Report Comment</p></a>
         <?php } ?>
     </div>
 </div>

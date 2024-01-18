@@ -2,6 +2,17 @@
 
 <h1>Comments For <?php echo $dispMap->name ?></h1>
 
+<script type="text/javascript">
+    function confirmReport(id) {
+        if (confirm('Would you like to report this comment?')) {
+            window.location.href = "index.php?action=reportComment&id=<?php echo $dispMap->id ?>&commentId=" + id;
+        }
+        else {
+            window.location.href = "index.php?action=viewComments&id=<?php echo $dispMap->id ?>";
+        }
+    }
+</script>
+
 <div class="reviewContainer">
     <?php if (!is_null($dispMap->comments)) foreach ($dispMap->comments as $comment) { ?>
         <?php include $_SERVER['DOCUMENT_ROOT'] . "/templates/comment.php" ?>
