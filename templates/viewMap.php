@@ -19,6 +19,17 @@
 	<div class="statusMessage">Thank you for reporting this comment. We will continue to monitor this comment for more reports. Please continue to keep our community safe!</div>
 <?php } } ?>
 
+<script type="text/javascript">
+    function confirmReport(id) {
+        if (confirm('Would you like to report this comment?')) {
+            window.location.href = "index.php?action=reportComment&id=<?php echo $dispMap->id ?>&commentId=" + id;
+        }
+        else {
+            window.location.href = "index.php?action=viewMap&id=<?php echo $dispMap->id ?>";
+        }
+    }
+</script>
+
 <div class="mapView">
 	<img src="<?php echo $dispMap->imageURL ?>" alt="Map thumbnail" style="float:left;width:100%;"/><hr style="height:15pt; visibility:hidden;" />
 	<br><br>
