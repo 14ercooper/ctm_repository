@@ -269,7 +269,7 @@ class Map {
 		// Place returned maps into an array
 		$list = array();
 		while ($row = $st->fetch()) {
-			$map = new Map($row);
+			$map = new Map($row, $commentLimit);
 			$list[] = $map;
 		}
 

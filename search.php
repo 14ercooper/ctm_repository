@@ -41,7 +41,7 @@ function results () {
 	elseif ($_POST['type'] === "Other") { $mapType = "Other"; }
 
 	// Load maps
-	$data = Map::getList($numRows, $order, $mapName, $mapAuthor, $mapDifficulty, $mapLength, $mapSeries, $mapType, $mapObjectives);
+	$data = Map::getList($numRows, 0, $order, $mapName, $mapAuthor, $mapDifficulty, $mapLength, $mapSeries, $mapType, $mapObjectives);
 	$results['maps'] = $data['results'];
 	$results['pageTitle'] = "Search | CTM Map Repository";
 
