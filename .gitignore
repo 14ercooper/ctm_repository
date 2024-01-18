@@ -1,4 +1,5 @@
 config.php
 map_img/
 classes/14erAuth.php
+*.env
 

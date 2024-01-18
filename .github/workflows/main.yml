@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  pull_request:
+    types: closed
+
+jobs:
+  build-artifacts:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - run: echo ${{github.workspace}}
+      - run: mkdir -p ${{github.workspace}}/ctmrepo-${{github.run_id}}.${{github.run_number}}
+      - run: cd ${{github.workspace}}/ctmrepo-${{github.run_id}}.${{github.run_number}}
+      - run: git clone ${{github.server_url}}/${{github.repository}}.git
+      - run: cd ..
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ctmrepo-${{github.run_id}}.${{github.run_number}}
+          path: ${{github.workspace}}/ctmrepo-${{github.run_id}}.${{github.run_number}}/ctm_repository/
+        
