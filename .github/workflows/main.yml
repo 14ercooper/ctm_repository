@@ -3,11 +3,12 @@ name: Deploy
 on:
   pull_request:
     types: closed
+  push:
 
 jobs:
   build-artifacts:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true || env.ACT
     steps:
       - run: echo ${{github.workspace}}
       - run: mkdir -p ${{github.workspace}}/ctmrepo-${{github.run_id}}.${{github.run_number}}
