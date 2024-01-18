@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: /ctmrepo-${{github.run_id}}.${{github.run_number}}/
+          path: ./ctmrepo-${{github.run_id}}.${{github.run_number}}/
       - uses: actions/upload-artifact@v4
         with:
           name: ctmrepo-${{github.run_id}}.${{github.run_number}}
