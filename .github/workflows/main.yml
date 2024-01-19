@@ -15,7 +15,6 @@ on:
 jobs:
   build-artifacts:
     runs-on: ubuntu-latest
-    if: ${{ env.upload-artifact == 'true' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,7 +28,6 @@ jobs:
                 !./ctmrepo-${{env.version-major}}.${{env.version-minor}}/vendor/*
   deploy-artifacts:
     runs-on: ubuntu-latest
-    if: ${{ env.download-artifact == 'true' }}
     steps:
       - uses: actions/download-artifact@v4    
         with:
