@@ -28,6 +28,7 @@ jobs:
                 !./ctmrepo-${{env.version-major}}.${{env.version-minor}}/vendor/*
   deploy-artifacts:
     runs-on: ubuntu-latest
+    needs: build-artifacts
     steps:
       - uses: actions/download-artifact@v4    
         with:
