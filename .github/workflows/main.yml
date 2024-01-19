@@ -17,7 +17,6 @@ on:
         required: true
       version-metadata:
         description: Define additional metadata for build version
-        required: false
         default: ''
 
 jobs:
