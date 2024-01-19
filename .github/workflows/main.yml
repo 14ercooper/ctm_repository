@@ -1,16 +1,24 @@
 name: Deploy
 
 env:
-  version-major: 1
-  version-minor: 1
-  # This is here for testing locally, should default to true
-  upload-artifact: 'true'
-  download-artifact: 'true'
+  version: ${{github.event.inputs.version-major}}.${{github.event.inputs.version-minor}}.${{github.event.inputs.version-patch}}${{github.event.inputs.version-metadata}}
 
 on:
-  pull_request:
-    types: closed
-  push:
+  workflow_dispatch:
+    inputs:
+      version-major:
+        description: Define major build version
+        required: true
+      version-minor:
+        description: Define minor build version
+        required: true
+      version-patch:
+        description: Define patch build version
+        required: true
+      version-metadata:
+        description: Define additional metadata for build version
+        required: false
+        default: ''
 
 jobs:
   build-artifacts:
@@ -18,21 +26,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: ./ctmrepo-${{env.version-major}}.${{env.version-minor}}
+          path: ./ctmrepo-${{env.version}}
       - uses: actions/upload-artifact@v4
         with:
-          name: ctmrepo-${{env.version-major}}.${{env.version-minor}}
+          name: ctmrepo-${{env.version}}
           path: | 
-                ./ctmrepo-${{env.version-major}}.${{env.version-minor}}/
-                !./ctmrepo-${{env.version-major}}.${{env.version-minor}}/.git/*
-                !./ctmrepo-${{env.version-major}}.${{env.version-minor}}/vendor/*
+                ./ctmrepo-${{env.version}}/
+                !./ctmrepo-${{env.version}}/.git/*
+                !./ctmrepo-${{env.version}}/vendor/*
   deploy-artifacts:
     runs-on: ubuntu-latest
     needs: build-artifacts
     steps:
       - uses: actions/download-artifact@v4    
         with:
-          name: ctmrepo-${{env.version-major}}.${{env.version-minor}}
+          name: ctmrepo-$ctmrepo-${{env.version}}
           path: artifacts
       - run: ls -R artifacts
       - uses: Creepios/sftp-action@v1.0.5
