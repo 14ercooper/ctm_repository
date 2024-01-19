@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4    
         with:
-          name: ctmrepo-$ctmrepo-${{env.version}}
+          name: ctmrepo-${{env.version}}
           path: artifacts
       - run: ls -R artifacts
       - uses: Creepios/sftp-action@v1.0.5
