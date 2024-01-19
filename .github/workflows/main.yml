@@ -1,5 +1,11 @@
 name: Deploy
 
+env:
+  version-major: 1
+  version-minor: 1
+  # This is here for testing locally, will be overridden when ran in Github.
+  ACT: false
+
 on:
   pull_request:
     types: closed
@@ -11,12 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: ./ctmrepo-${{github.run_id}}.${{github.run_number}}/
+          path: ./ctmrepo-${{env.version-major}}.${{env.version-minor}}
       - uses: actions/upload-artifact@v4
+        if: ${{ !env.ACT }}
         with:
-          name: ctmrepo-${{github.run_id}}.${{github.run_number}}
+          name: ctmrepo-${{env.version-major}}.${{env.version-minor}}
           path: | 
-                ./ctmrepo-${{github.run_id}}.${{github.run_number}}/
-                !./ctmrepo-${{github.run_id}}.${{github.run_number}}/.git/*
+                ./ctmrepo-${{env.version-major}}.${{env.version-minor}}/
+                !./ctmrepo-${{env.version-major}}.${{env.version-minor}}/.git/*
+                !./ctmrepo-${{env.version-major}}.${{env.version-minor}}/vendor/*
+      - uses: actions/download-artifact@v4
+        if: ${{ !env.ACT }}
+        with:
+          name: ctmrepo-${{env.version-major}}.${{env.version-minor}}
                 
         
