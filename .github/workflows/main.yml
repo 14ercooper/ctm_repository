@@ -49,7 +49,7 @@ jobs:
           password: ${{secrets.SERVER_PASSWORD}}
           port: 22
           localPath: artifacts/
-          remotePath: data/
+          remotePath: ${{vars.DEPLOYMENT_PATH}}
 
                 
         
