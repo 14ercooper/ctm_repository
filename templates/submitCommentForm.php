@@ -21,10 +21,10 @@
                 <option value="5">Five Stars</option>
             </select>
         </li>
-        <li>
-            <label for="screenshotLink">Screenshot Link</label>
-            <input type="text" name="screenshotLink" id="screenshotLink" placeholder="Screenshot Link (Use Direct Link)" maxLength="255">
-        </li>
+<!--        <li>-->
+<!--            <label for="screenshotLink">Screenshot Link</label>-->
+<!--            <input type="text" name="screenshotLink" id="screenshotLink" placeholder="Screenshot Link (Use Direct Link)" maxLength="255">-->
+<!--        </li>-->
         <li>
             <label for="comment">Comment</label>
             <textarea name="comment" id="comment" required placeholder="Comment" style="height: 15em;" minLength="32" maxLength="1024"></textarea>

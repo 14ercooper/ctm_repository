@@ -66,20 +66,20 @@ function newMap () {
 	$results['formAction'] = "newMap";
 	if (isset($_POST['saveChanges'])) {
 		$map = new Map();
-		$map->storeFormValues($_POST);
+		$map->storeFormValues($_POST, 0);
 		$map->insert();
 		header("Location: admin.php?status=changesSaved");
 	}
 	if (isset($_POST['saveChangesPublish'])) {
 		$map = new Map();
-		$map->storeFormValues($_POST);
+		$map->storeFormValues($_POST, 0);
 		$map->insert();
 		$map->makePublished(true);
 		header("Location: admin.php?status=changesSaved");
 	}
 	if (isset($_POST['saveChangesUnpublsih'])) {
 		$map = new Map();
-		$map->storeFormValues($_POST);
+		$map->storeFormValues($_POST, 0);
 		$map->insert();
 		$map->makePublished(false);
 		header("Location: admin.php?status=changesSaved");
@@ -103,7 +103,7 @@ function editMap () {
 		}
 
 		$map = new Map();
-		$map->storeFormValues($_POST);
+		$map->storeFormValues($_POST, 0);
 		$map->update();
 		header("Location: admin.php?status=changesSaved");
 	}
@@ -113,7 +113,7 @@ function editMap () {
 		}
 
 		$map = new Map();
-		$map->storeFormValues($_POST);
+		$map->storeFormValues($_POST, 0);
 		$map->update();
 		$map->makePublished(true);
 		header("Location: admin.php?status=changesSaved");
@@ -124,7 +124,7 @@ function editMap () {
 		}
 
 		$map = new Map();
-		$map->storeFormValues($_POST);
+		$map->storeFormValues($_POST, 0);
 		$map->update();
 		$map->makePublished(false);
 		header("Location: admin.php?status=changesSaved");

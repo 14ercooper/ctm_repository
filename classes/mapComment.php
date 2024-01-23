@@ -18,7 +18,7 @@ class MapComment {
         if (isset($data['author'])) $this->author = $data['author'];
         if (isset($data['rating'])) $this->rating = (int) $data['rating'];
         if (isset($data['comment'])) $this->comment = $data['comment'];
-        if (isset($data['screenshotLink'])) $this->screenshotLink = $data['screenshotLink'];
+        //if (isset($data['screenshotLink'])) $this->screenshotLink = $data['screenshotLink'];
         if (isset($data['flagCount'])) $this->flagCount = $data['flagCount'];
         if (isset($data['adminApproved'])) $this->adminApproved = $data['adminApproved'];
 
