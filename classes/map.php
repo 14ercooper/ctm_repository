@@ -104,17 +104,25 @@ class Map {
 
 		$rating = MapComment::getAvgRatingByMapId($this->id);
 		$this->avgRating = $rating ? $rating : "No Reviews Yet";
-		$allComments = MapComment::getAllApprovedByMapId($this->id, $commentLimit);
-		$this->comments = $allComments['results'];
+		
+		// If the comment limit is greater than -1, we want to retrieve comments
+		// Otherwise, return an empty array
+		if ($commentLimit >= 0) {
+			$allComments = MapComment::getAllApprovedByMapId($this->id, $commentLimit);
+			$this->comments = $allComments['results'];
+		}
+		else {
+			$this->comments = array();
+		}
 	}
 
 	// Stores values from a form/other input into the object
-	public function storeFormValues ($params, $commentLimit) {
+	public function storeFormValues ($params, $commentLimit=-1) {
 		$this->__construct($params, $commentLimit);
 	}
 
 	// Stores values from a form/other input into the object
-	public function storeSubmitFormValues ($params, $commentLimit) {
+	public function storeSubmitFormValues ($params, $commentLimit=-1) {
 		$this->__construct($params, $commentLimit);
 	}
 
