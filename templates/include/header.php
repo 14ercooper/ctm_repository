@@ -14,7 +14,7 @@
 				<a href="/index.php?action=recent"><button class="headerButton">Recently Added</button></a>&nbsp;
 				<a href="/index.php?action=browse"><button class="headerButton">Browse</button></a>&nbsp;
 				<a href="/index.php?action=search"><button class="headerButton">Advanced Search</button></a>&nbsp;
-				<a href="https://ctmrepository.com/submitMap.php"><button class="headerButton">Map Submission</button></a>&nbsp;
+				<a href="/submitMap.php"><button class="headerButton">Map Submission</button></a>&nbsp;
 				<a href="https://ctm.community" target="_blank"><button class="headerButton">The CTM Community</button></a>
 				<a href="https://www.patreon.com/14er"><button class="headerButton">Patreon</button></a>
 				<br>
