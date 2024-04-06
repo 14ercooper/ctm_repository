@@ -49,6 +49,7 @@ function browseResults () {
 	if ($_POST['type'] === "Branching") { $mapType="Branching"; }
 	else if ($_POST['type'] === "Linear") { $mapType="Linear"; }
 	else if ($_POST['type'] === "OpenWorld") { $mapType="Open World"; }
+	else if ($_POST['type'] === "SemiOpenWorld") { $mapType="Semi-Open World"; }
 	else if ($_POST['type'] === "Adventure") { $mapType="Adventure"; }
 	else if ($_POST['type'] === "CentralHub") { $mapType="Central Hub"; }
 	else if ($_POST['type'] === "RFW") { $mapType="RFW"; }
