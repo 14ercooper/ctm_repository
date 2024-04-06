@@ -31,7 +31,7 @@
 				<option value="VeryShort">Very Short</option>
 				<option value="Short">Short</option>
 				<option value="Medium">Medium</option>
-				<option value="Long">Long</option
+				<option value="Long">Long</option>
 				<option value="VeryLong">Very Long</option>
 			</select>
 		</li>
