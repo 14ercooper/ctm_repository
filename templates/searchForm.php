@@ -55,7 +55,7 @@
 				<option value="Branching">Branching</option>
 				<option value="Linear">Linear</option>
 				<option value="OpenWorld">Open World</option>
-				<option value="OpenWorld">Semi-Open World</option>
+				<option value="SemiOpenWorld">Semi-Open World</option>
 				<option value="Adventure">Adventure</option>
 				<option value="CentralHub">Central Hub</option>
 				<option value="RFW">RFW</option>
